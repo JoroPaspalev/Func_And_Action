@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Func
 {
@@ -11,6 +13,8 @@ namespace Func
             // 3. Искам трета функция, която да намира корен квадратен на подадено число
             // 4. Искам функция, която да приема някоя от трите функции и да печата резултата им. А не да и ма три отделни функции за печатане, които да приемат само числото и вътре да извикват различните методи, защото ще има повтаряемост на кода и той няма да се преизползва!
             // 5. Искам функция, която да приема int, double, string и да връща string
+            // 6. Искам да си направя собствен метод .Where()
+
 
             //!!!!!Wrong way!!!!!!!!
             //PrintSquare(5);
@@ -39,7 +43,18 @@ namespace Func
             //Тези двете правят едно и също. В единия случай подаваме направо името на метода, а във втория името на променливата на която сме присвоили същия метод.
             PrintSallaryOfEmployee("Ivan", ThreeInputParametersFunction);
             PrintSallaryOfEmployee("Ivan", variableOfFuncWithThreeInputParameters);
-            
+
+            // 6.Решение
+            // 6.1. Правя си един List<int>, който ще филтрирам
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            // 6.2. Филтрирам го с MyWhere() и връщам резултата
+            List<int> result = MyWhere(numbers, FilterNumbers);
+            List<int> result2 = MyWhere(numbers, n => n % 2 != 0); // чрез използване на ламбда функция
+            //Как става с оригиналния .Where()
+            List<int> result3 = numbers.Where(x => x % 2 == 0).ToList();
+
+
+
 
         }
 
@@ -110,8 +125,32 @@ namespace Func
             Console.WriteLine(func(workingDays, sallaryForOneDay, workerName));
         }
 
+        // 6.
+        public static List<int> MyWhere(List<int> numbers, Func<int, bool> filter)
+        {
+            List<int> result = new List<int>();
+            foreach (var number in numbers)
+            {
+                if (filter(number))
+                {
+                    result.Add(number);
+                }
 
+                //bool isMatch = false;
+                //isMatch = filter(number);
+                //if (isMatch)
+                //{
+                //    result.Add(number);
+                //}
+            }
 
+            return result;
+        }
+
+        public static bool FilterNumbers(int number)
+        {
+            return number % 2 == 0;
+        }
 
     }
 }

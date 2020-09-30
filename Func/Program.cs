@@ -10,6 +10,7 @@ namespace Func
             // 2. Искам втора функция, която да намира факториел на дадено число
             // 3. Искам трета функция, която да намира корен квадратен на подадено число
             // 4. Искам функция, която да приема някоя от трите функции и да печата резултата им. А не да и ма три отделни функции за печатане, които да приемат само числото и вътре да извикват различните методи, защото ще има повтаряемост на кода и той няма да се преизползва!
+            // 5. Искам функция, която да приема int, double, string и да връща string
 
             //!!!!!Wrong way!!!!!!!!
             //PrintSquare(5);
@@ -30,6 +31,16 @@ namespace Func
             PrintResult(5, square);
             PrintResult(5, factorial);
             PrintResult(5, squareRoot);
+
+            //Може да използваме Func<> и с повече от един входен параметър - приема първите 3 параметъра int, double, string и винаги последното е връщания тип - string в случая
+            //Тук присвояваме функцията към променливата variableOfFuncWithThreeInputParameters
+            Func<int, double, string, string> variableOfFuncWithThreeInputParameters = ThreeInputParametersFunction;
+
+            //Тези двете правят едно и също. В единия случай подаваме направо името на метода, а във втория името на променливата на която сме присвоили същия метод.
+            PrintSallaryOfEmployee("Ivan", ThreeInputParametersFunction);
+            PrintSallaryOfEmployee("Ivan", variableOfFuncWithThreeInputParameters);
+            
+
         }
 
         //1.
@@ -82,5 +93,25 @@ namespace Func
             long result = func(number);
             Console.WriteLine(result);
         }
+
+        // 5.
+        public static string ThreeInputParametersFunction(int countOfWorkingDays, double sallaryForOneDay, string workerName)
+        {
+            decimal sallary = (decimal)(countOfWorkingDays * sallaryForOneDay);
+            string result = $"{workerName}'s sallary is exactly: {sallary:F2}";
+            return result;
+        }
+
+        // 5. Принтирай ми заплатата
+        public static void PrintSallaryOfEmployee(string workerName, Func<int, double, string, string> func)
+        {
+            int workingDays = 21;
+            double sallaryForOneDay = 50.4598433509;
+            Console.WriteLine(func(workingDays, sallaryForOneDay, workerName));
+        }
+
+
+
+
     }
 }
